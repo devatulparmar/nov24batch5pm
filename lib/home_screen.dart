@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/count_screen.dart';
 import 'package:nov24batch5pm/expanded_flexible_screen.dart';
+import 'package:nov24batch5pm/image_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,6 +21,17 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ImageScreen(),
+                ),
+              );
+            },
+            child: const Text('Image Screen'),
+          ),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
