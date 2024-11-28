@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/count_screen.dart';
 import 'package:nov24batch5pm/expanded_flexible_screen.dart';
 import 'package:nov24batch5pm/image_screen.dart';
+import 'package:nov24batch5pm/list_binding_screen.dart';
+import 'package:nov24batch5pm/list_build_screen.dart';
+import 'package:nov24batch5pm/list_screen.dart';
+import 'package:nov24batch5pm/list_separated_screen.dart';
+import 'package:nov24batch5pm/nested_list_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,10 +22,63 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Home Screen'),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      body: ListView(
         children: [
-          Row(),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ListBindingScreen(),
+                ),
+              );
+            },
+            child: const Text('List Binding Screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const NestedListScreen(),
+                ),
+              );
+            },
+            child: const Text('Nested List Screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ListSeparatedScreen(),
+                ),
+              );
+            },
+            child: const Text('List Separated Screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ListBuildScreen(),
+                ),
+              );
+            },
+            child: const Text('List Build Screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ListScreen(),
+                ),
+              );
+            },
+            child: const Text('List Screen'),
+          ),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
