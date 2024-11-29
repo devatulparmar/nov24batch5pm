@@ -12,6 +12,8 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
 
   List<String> cityNamesListObject = ["Vadodara", "Ahmedabad", "Surat", "Rajkot"];
 
+  List list = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +34,16 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
             ),
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          // cityNamesListObject.addAll(["Halol", "Kalol"]);
+          // cityNamesListObject.add(["Halol", "Kalol"]);
+          setState(() {});
+        },
+        child: const Icon(
+          Icons.remove,
+        ),
       ),
     );
   }
