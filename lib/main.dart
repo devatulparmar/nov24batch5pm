@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/home_screen.dart';
+import 'package:nov24batch5pm/screen1.dart';
+import 'package:nov24batch5pm/stateful_lifecycle_screen.dart';
+import 'package:nov24batch5pm/utils/constants.dart';
 
 void main() {
   runApp(const App());
@@ -22,7 +25,11 @@ class App extends StatelessWidget {
           titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
         )
       ),
-      home: const HomeScreen(),
+      home: const Screen1(),
+      // routes: {
+      //   "/": (BuildContext context) => const HomeScreen(),
+      //   routeStatefulLifeCycleScreen: (BuildContext context) => const StatefulLifecycleScreen(),
+      // },
     );
   }
 }

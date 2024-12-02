@@ -13,6 +13,7 @@ import 'package:nov24batch5pm/list_screen.dart';
 import 'package:nov24batch5pm/list_separated_screen.dart';
 import 'package:nov24batch5pm/nested_list_screen.dart';
 import 'package:nov24batch5pm/stateful_lifecycle_screen.dart';
+import 'package:nov24batch5pm/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,12 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (BuildContext context) => const StatefulLifecycleScreen(),
-                ),
-              );
+              Navigator.pushNamed(context, routeStatefulLifeCycleScreen);
+
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) => const StatefulLifecycleScreen(),
+              //   ),
+              // );
             },
             child: const Text('Stateful Lifecycle Screen'),
           ),
