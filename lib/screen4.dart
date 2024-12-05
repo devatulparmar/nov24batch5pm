@@ -16,28 +16,45 @@ class _Screen4State extends State<Screen4> {
         backgroundColor: Colors.purple,
         title: const Text('Screen 4'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigator.pop(context); ///Remove Screen4
-            // Navigator.pop(context); ///Remove Screen3
-            // Navigator.pop(context); ///Remove Screen2
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (BuildContext context) => const Screen1(),
-            //   ),
-            // ); ///Remove old Screen1 and Add New Screen1
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const Screen1(),
-              ),
-              (Route routeObject) => false,
-            );
-          },
-          child: const Text('Go to Screen 1'),
-        ),
+      body: Column(
+        children: [
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                // Navigator.pop(context); ///Remove Screen4
+                // Navigator.pop(context); ///Remove Screen3
+                // Navigator.pop(context); ///Remove Screen2
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (BuildContext context) => const Screen1(),
+                //   ),
+                // ); ///Remove old Screen1 and Add New Screen1
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const Screen1(),
+                  ),
+                  (Route routeObject) => false,
+                );
+              },
+              child: const Text('Go to Screen 1'),
+            ),
+          ),
+          const SizedBox(height: 40),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/',
+                  (Route route) => false,
+                );
+              },
+              child: const Text('Goto Next Screen 1'),
+            ),
+          ),
+        ],
       ),
     );
   }

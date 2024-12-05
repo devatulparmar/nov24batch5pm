@@ -1,15 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/screen3.dart';
 
 class Screen2 extends StatefulWidget {
   const Screen2({
     super.key,
-    required this.myStringValue,
-    required this.age,
+    required this.arguments,
   });
 
-  final String myStringValue;
-  final int age;
+  final arguments;
 
   @override
   State<Screen2> createState() => _Screen2State();
@@ -36,8 +35,8 @@ class _Screen2State extends State<Screen2> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(widget.myStringValue),
-          Text(widget.age.toString()),
+          Text(widget.arguments['age'].toString()),
+          Text(widget.arguments['name'].toString()),
           Center(
             child: ElevatedButton(
               onPressed: () {

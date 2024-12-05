@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/screen2.dart';
+import 'package:nov24batch5pm/utils/constants.dart';
 
 class Screen1 extends StatefulWidget {
   const Screen1({super.key});
@@ -30,9 +31,8 @@ class _Screen1State extends State<Screen1> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (BuildContext context) => Screen2(
-                      myStringValue: myString,
-                      age: 5,
+                    builder: (BuildContext context) =>const Screen2(
+                      arguments: {"age": 5, "name": "Hello"},
                     ),
                   ),
                 );
@@ -46,6 +46,30 @@ class _Screen1State extends State<Screen1> {
               },
               child: const Text('Go to Screen 2'),
             ),
+          ),
+          const SizedBox(height: 40),
+          ElevatedButton(
+            onPressed: () {
+              // Navigator.pushNamed(
+              //   context,
+              //   'screen2',
+              // );
+
+              Navigator.pushReplacementNamed(
+                context,
+                routeScreen2,
+                arguments: {"age": 25, "name": "Hello"},
+              );
+            },
+            child: const Text('Goto Next Screen 2'),
+          ),
+
+          const SizedBox(height: 40),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, routeScreen5);
+            },
+            child: const Text('Goto Screen 5'),
           ),
         ],
       ),

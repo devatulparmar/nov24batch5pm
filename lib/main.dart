@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nov24batch5pm/home_screen.dart';
-import 'package:nov24batch5pm/sales_screen.dart';
-import 'package:nov24batch5pm/screen1.dart';
-import 'package:nov24batch5pm/stateful_lifecycle_screen.dart';
-import 'package:nov24batch5pm/utils/constants.dart';
+import 'package:nov24batch5pm/utils/route.dart';
 
 void main() {
   runApp(const App());
@@ -17,19 +13,19 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          backgroundColor: Colors.red,
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.green,
-          iconTheme: IconThemeData(color: Colors.white),
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
-        )
-      ),
-      home: const SalesScreen(),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Colors.red,
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.green,
+            iconTheme: IconThemeData(color: Colors.white),
+            titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          )),
+      onGenerateRoute: MyAppRoute.onGenerateRoute,
       // routes: {
-      //   "/": (BuildContext context) => const HomeScreen(),
-      //   routeStatefulLifeCycleScreen: (BuildContext context) => const StatefulLifecycleScreen(),
+      //   "/": (BuildContext context) => const Screen1(),
+      //   "screen2": (BuildContext context) => Screen2(age: ,myStringValue: ,),
+      //   "screen3": (BuildContext context) => const Screen3(),
       // },
     );
   }

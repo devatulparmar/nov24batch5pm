@@ -17,18 +17,31 @@ class _Screen3State extends State<Screen3> {
         backgroundColor: Colors.yellow,
         title: const Text('Screen 3'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => const Screen4(),
-              ),
-            );
-          },
-          child: const Text('Go to Screen 4'),
-        ),
+      body: Column(
+        children: [
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => const Screen4(),
+                  ),
+                );
+              },
+              child: const Text('Go to Screen 4'),
+            ),
+          ),
+         const SizedBox(height: 40,),
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, 'screen4');
+              },
+              child: const Text('Goto Next Screen 4'),
+            ),
+          ),
+        ],
       ),
     );
   }
