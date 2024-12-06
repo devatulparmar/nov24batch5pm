@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:nov24batch5pm/count_screen.dart';
 import 'package:nov24batch5pm/expanded_flexible_screen.dart';
 import 'package:nov24batch5pm/gridview_builder_screen.dart';
@@ -13,6 +15,7 @@ import 'package:nov24batch5pm/list_screen.dart';
 import 'package:nov24batch5pm/list_separated_screen.dart';
 import 'package:nov24batch5pm/nested_list_screen.dart';
 import 'package:nov24batch5pm/stateful_lifecycle_screen.dart';
+import 'package:nov24batch5pm/utils/common_drawer_screen.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,6 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Home Screen'),
       ),
+      drawer:const CommonDrawerScreen(),
+      endDrawer:const CommonDrawerScreen(),
       body: ListView(
         children: [
           ElevatedButton(
@@ -49,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const GridviewExtentScreen(),
+                  builder: (BuildContext context) =>
+                      const GridviewExtentScreen(),
                 ),
               );
             },
@@ -60,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const GridviewBuilderScreen(),
+                  builder: (BuildContext context) =>
+                      const GridviewBuilderScreen(),
                 ),
               );
             },
@@ -71,7 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const GridviewCountScreen(),
+                  builder: (BuildContext context) =>
+                      const GridviewCountScreen(),
                 ),
               );
             },
@@ -126,7 +134,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const ListSeparatedScreen(),
+                  builder: (BuildContext context) =>
+                      const ListSeparatedScreen(),
                 ),
               );
             },
@@ -170,7 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) => const ExpandedFlexibleScreen(),
+                  builder: (BuildContext context) =>
+                      const ExpandedFlexibleScreen(),
                 ),
               );
             },

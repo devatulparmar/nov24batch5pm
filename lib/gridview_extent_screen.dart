@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nov24batch5pm/utils/common_drawer_screen.dart';
 
 class GridviewExtentScreen extends StatefulWidget {
   const GridviewExtentScreen({super.key});
@@ -14,6 +15,7 @@ class _GridviewExtentScreenState extends State<GridviewExtentScreen> {
       appBar: AppBar(
         title: const Text('Gridview Extent Screen'),
       ),
+      drawer: const CommonDrawerScreen(),
       body: GridView.extent(
         maxCrossAxisExtent: 300,
         mainAxisSpacing: 10,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nov24batch5pm/home_screen.dart';
 import 'package:nov24batch5pm/no_route_found_screen.dart';
 import 'package:nov24batch5pm/screen1.dart';
 import 'package:nov24batch5pm/screen2.dart';
@@ -10,7 +11,7 @@ class MyAppRoute {
     Widget screenObject;
     switch (settingObject.name) {
       case '/':
-        screenObject = const Screen1();
+        screenObject = const HomeScreen();
         break;
       case routeScreen2:
         screenObject = Screen2(arguments: settingObject.arguments);
