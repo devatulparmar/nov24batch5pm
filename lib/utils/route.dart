@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/home_screen.dart';
+import 'package:nov24batch5pm/login_screen.dart';
 import 'package:nov24batch5pm/no_route_found_screen.dart';
 import 'package:nov24batch5pm/screen1.dart';
 import 'package:nov24batch5pm/screen2.dart';
@@ -18,6 +19,8 @@ class MyAppRoute {
         break;
       case routeScreen5:
         screenObject = const Screen5();
+      case routeLoginScreen:
+        screenObject = const LoginScreen();
       default:
         screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
     }

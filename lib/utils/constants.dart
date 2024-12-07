@@ -6,3 +6,4 @@ const String imgNetwork = "https://2.img-dpreview.com/files/p/E~C1000x0S4000x400
 const String routeStatefulLifeCycleScreen = "routeStatefulLifeCycleScreen";
 const String routeScreen2 = 'routeScreen2';
 const String routeScreen5 = 'hello';
+const String routeLoginScreen = 'routeLoginScreen';
