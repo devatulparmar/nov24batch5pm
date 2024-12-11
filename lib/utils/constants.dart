@@ -9,3 +9,4 @@ const String routeScreen5 = 'hello';
 const String routeLoginScreen = 'routeLoginScreen';
 const String routeLoginScreen2 = 'routeLoginScreen2';
 const String routeGridviewProductsList = 'routeGridviewProductsList';
+const String routeRegisterScreen = 'routeRegisterScreen';

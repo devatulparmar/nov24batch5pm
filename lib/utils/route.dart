@@ -4,6 +4,7 @@ import 'package:nov24batch5pm/home_screen.dart';
 import 'package:nov24batch5pm/login_screen.dart';
 import 'package:nov24batch5pm/login_screen2.dart';
 import 'package:nov24batch5pm/no_route_found_screen.dart';
+import 'package:nov24batch5pm/register_screen.dart';
 import 'package:nov24batch5pm/screen1.dart';
 import 'package:nov24batch5pm/screen2.dart';
 import 'package:nov24batch5pm/screen5.dart';
@@ -27,6 +28,8 @@ class MyAppRoute {
         screenObject = const LoginScreen2();
       case routeGridviewProductsList:
         screenObject = const GridviewProductsList();
+        case routeRegisterScreen:
+        screenObject = const RegisterScreen();
       default:
         screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
     }
