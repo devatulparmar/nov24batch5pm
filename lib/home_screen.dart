@@ -38,6 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           ElevatedButton(
             onPressed: () {
+              Navigator.pushNamed(context, routeLoginScreen2);
+            },
+            child: const Text('Login Screen 2'),
+          ),
+          ElevatedButton(
+            onPressed: () {
               Navigator.pushNamed(context, routeLoginScreen);
             },
             child: const Text('Login Screen'),
