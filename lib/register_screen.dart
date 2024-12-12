@@ -15,6 +15,86 @@ class _RegisterScreenState extends State<RegisterScreen> {
   int genderSelection = 0;
   int maritalStatus = 0;
   String maritalStatusString = 'U';
+  String? dropDownSelectedCityValue;
+  bool isTermsAndConditionAccepted = false;
+  List<String> cityNamesListObject = [
+    "Vadodara",
+    "Ahmedabad",
+    "Surat",
+    "Rajkot"
+  ];
+
+  List<DropdownMenuItem> cityList = const [
+    DropdownMenuItem(
+      value: 'Vadodara',
+      child: Text('Vadodara'),
+    ),
+    DropdownMenuItem(
+      value: 'Ahmedabad',
+      child: Text('Ahmedabad'),
+    ),
+    DropdownMenuItem(
+      value: 'Rajkot',
+      child: Text('Rajkot'),
+    ),
+    DropdownMenuItem(
+      value: 'Gandhinagar',
+      child: Text('Gandhinagar'),
+    ),
+  ];
+
+  bool _validateRegisterForm(){
+    if(formKey.currentState!.validate()){
+      if(genderSelection == 0){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please select Gender.'),
+            backgroundColor: Colors.red,
+            padding: EdgeInsets.all(10),
+            elevation: 10,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+      else if(maritalStatus == 0){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please select Marital Status.'),
+            backgroundColor: Colors.red,
+            padding: EdgeInsets.all(10),
+            elevation: 10,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+      else if(dropDownSelectedCityValue == null){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please select City.'),
+            backgroundColor: Colors.red,
+            padding: EdgeInsets.all(10),
+            elevation: 10,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+      else if(isTermsAndConditionAccepted == false){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please Accept Terms And Condition.'),
+            backgroundColor: Colors.red,
+            padding: EdgeInsets.all(10),
+            elevation: 10,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+      else{
+        return true;
+      }
+    }
+    return false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +109,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             const SizedBox(height: 20),
             TextFormField(
-              controller: emailController,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               validator: (value) {
@@ -344,7 +423,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             Row(
               children: [
                 Radio(
-                  value: 0,
+                  value: 1,
                   groupValue: genderSelection,
                   onChanged: (newValue) {
                     genderSelection = newValue!;
@@ -353,7 +432,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 const Text('Male'),
                 Radio(
-                  value: 1,
+                  value: 2,
                   groupValue: genderSelection,
                   onChanged: (newValue) {
                     genderSelection = newValue!;
@@ -369,7 +448,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Flexible(
                   flex: 1,
                   child: RadioListTile(
-                    value: 0,
+                    value: 1,
                     groupValue: maritalStatus,
                     title: const Text(
                       'Unmarried',
@@ -391,7 +470,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Flexible(
                   flex: 1,
                   child: RadioListTile(
-                    value: 1,
+                    value: 2,
                     groupValue: maritalStatus,
                     title: const Text(
                       'Married',
@@ -448,6 +527,116 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
             const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(35),
+                border: Border.all(color: Colors.black),
+              ),
+              child: DropdownButton(
+                hint: const Text('Select City'),
+                value: dropDownSelectedCityValue,
+                icon: const Icon(Icons.arrow_downward),
+                borderRadius: BorderRadius.circular(35),
+                isExpanded: true,
+                isDense: false, // for button height
+                underline: const SizedBox.shrink(),
+                items: cityNamesListObject
+                    .map(
+                      (dynamic item) => DropdownMenuItem(
+                        value: item,
+                        child: Text(item.toString()),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (newValue) {
+                  dropDownSelectedCityValue = newValue!.toString();
+                  setState(() {});
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Checkbox(
+                  value: isTermsAndConditionAccepted,
+                  onChanged: (newValue) {
+                    isTermsAndConditionAccepted = newValue!;
+                    setState(() {});
+                  },
+                ),
+                const Text('Accept all Terms and Conditions.'),
+              ],
+            ),
+            const SizedBox(height: 20),
+            CheckboxListTile(
+              value: isTermsAndConditionAccepted,
+              title: const Text('Accept all Terms and Conditions.'),
+              controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: EdgeInsets.zero,
+              visualDensity: VisualDensity.compact,
+              dense: true,
+              subtitle: GestureDetector(
+                onTap: (){
+                  print('clicked');
+                },
+                onLongPress: (){
+                  print('onLongPress clicked');
+                },
+                onDoubleTap: (){
+                  print('onDoubleTap clicked');
+                },
+                child: Text(
+                  'read Terms and Conditions',
+                  style: TextStyle(
+                    color: Colors.blue.shade900,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              // tristate: true,
+              onChanged: (newValue) {
+                isTermsAndConditionAccepted = newValue!;
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+            InkWell(
+              onTap: (){
+                print('inkwell on tap clicked');
+              },
+              onLongPress: (){
+                print('inkwell onLongPress clicked');
+              },
+              onDoubleTap: (){
+                print('inkwell onDoubleTap clicked');
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Text(
+                      'read new Terms and Conditions',
+                      style: TextStyle(
+                        color: Colors.blue.shade900,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                if(_validateRegisterForm()){
+                  print('success');
+                  // APi call
+                }
+              },
+              child: const Text('Register'),
+            ),
+            const SizedBox(height: 50),
           ],
         ),
       ),
