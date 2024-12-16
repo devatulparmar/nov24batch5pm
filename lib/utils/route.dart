@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nov24batch5pm/dialog_screen.dart';
 import 'package:nov24batch5pm/gridview_products_list.dart';
 import 'package:nov24batch5pm/home_screen.dart';
 import 'package:nov24batch5pm/login_screen.dart';
@@ -30,6 +31,8 @@ class MyAppRoute {
         screenObject = const GridviewProductsList();
         case routeRegisterScreen:
         screenObject = const RegisterScreen();
+        case routeDialogScreen:
+        screenObject = const DialogScreen();
       default:
         screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
     }

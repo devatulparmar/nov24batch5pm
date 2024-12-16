@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:nov24batch5pm/utils/constants.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -31,6 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   XFile? selectedImage;
   double ageSliderValue = 18;
   List<XFile?> selectedMultiImage = [];
+  String dateOfBirth = '';
 
   List<DropdownMenuItem> cityList = const [
     DropdownMenuItem(
@@ -130,6 +133,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // }
     selectedMultiImage.addAll(images);
     setState(() {});
+  }
+
+  void _pickDateFromCalender() async {
+    var date = await showDatePicker(
+        context: context,
+        firstDate: DateTime(1970),
+        lastDate: DateTime(
+          DateTime.now().year - 18,
+          DateTime.now().month,
+          DateTime.now().day,
+        ),
+        initialDate: DateTime(
+          DateTime.now().year - 18,
+          DateTime.now().month,
+          DateTime.now().day,
+        ),
+        barrierDismissible: true,
+        initialEntryMode: DatePickerEntryMode.calendarOnly);
+    if (date != null) {
+      var formatedDate = DateFormat("dd/MM/yyyy").format(date); // 16-12-2006
+      dateOfBirth = formatedDate.toString();
+      setState(() {});
+    }
   }
 
   @override
@@ -513,6 +539,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ageSliderValue = newValue;
                 setState(() {});
               },
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Text('Birthdate: $dateOfBirth'),
+                IconButton(
+                  onPressed: _pickDateFromCalender,
+                  icon: const Icon(Icons.calendar_month),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              height: 150,
+              child: CupertinoDatePicker(
+                onDateTimeChanged: (date) {
+                  var formatedDate = DateFormat("dd/MM/yyyy").format(date);
+                  dateOfBirth = formatedDate.toString();
+                  setState(() {});
+                },
+                mode: CupertinoDatePickerMode.date,
+              ),
             ),
             const SizedBox(height: 20),
             Row(
