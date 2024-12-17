@@ -1,17 +1,19 @@
+
 import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/utils/route.dart';
 
-void main() {
-  runApp(const App());
+class NestedNavScreen extends StatefulWidget {
+  const NestedNavScreen({super.key});
+
+  @override
+  State<NestedNavScreen> createState() => _NestedNavScreenState();
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
-
+class _NestedNavScreenState extends State<NestedNavScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'main',
+      title: 'nested',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -22,12 +24,7 @@ class App extends StatelessWidget {
             iconTheme: IconThemeData(color: Colors.white),
             titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
           )),
-      onGenerateRoute: MyAppRoute.onGenerateRoute,
-      // routes: {
-      //   "/": (BuildContext context) => const Screen1(),
-      //   "screen2": (BuildContext context) => Screen2(age: ,myStringValue: ,),
-      //   "screen3": (BuildContext context) => const Screen3(),
-      // },
+      onGenerateRoute: MyAppRoute.onGenerateNestedRoute,
     );
   }
 }

@@ -12,3 +12,4 @@ const String routeLoginScreen2 = 'routeLoginScreen2';
 const String routeGridviewProductsList = 'routeGridviewProductsList';
 const String routeRegisterScreen = 'routeRegisterScreen';
 const String routeDialogScreen = 'routeDialogScreen';
+const String routeTabScreen = 'routeTabScreen';

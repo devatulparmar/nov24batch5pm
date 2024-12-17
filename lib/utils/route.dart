@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nov24batch5pm/bottom_nav_screen.dart';
 import 'package:nov24batch5pm/dialog_screen.dart';
 import 'package:nov24batch5pm/gridview_products_list.dart';
 import 'package:nov24batch5pm/home_screen.dart';
@@ -9,6 +10,7 @@ import 'package:nov24batch5pm/register_screen.dart';
 import 'package:nov24batch5pm/screen1.dart';
 import 'package:nov24batch5pm/screen2.dart';
 import 'package:nov24batch5pm/screen5.dart';
+import 'package:nov24batch5pm/tab_screen.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 
 class MyAppRoute {
@@ -16,7 +18,7 @@ class MyAppRoute {
     Widget screenObject;
     switch (settingObject.name) {
       case '/':
-        screenObject = const HomeScreen();
+        screenObject = const BottomNavScreen();
         break;
       case routeScreen2:
         screenObject = Screen2(arguments: settingObject.arguments);
@@ -33,6 +35,32 @@ class MyAppRoute {
         screenObject = const RegisterScreen();
         case routeDialogScreen:
         screenObject = const DialogScreen();
+        case routeTabScreen:
+        screenObject = const TabScreen();
+      default:
+        screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
+    }
+    return MaterialPageRoute(builder: (BuildContext context) => screenObject);
+  }
+
+  static Route<dynamic> onGenerateNestedRoute(RouteSettings settingObject){
+    Widget screenObject;
+    switch (settingObject.name) {
+      case '/':
+        screenObject = const HomeScreen();
+        break;
+      case routeLoginScreen:
+        screenObject = const LoginScreen();
+      case routeLoginScreen2:
+        screenObject = const LoginScreen2();
+      case routeGridviewProductsList:
+        screenObject = const GridviewProductsList();
+      case routeRegisterScreen:
+        screenObject = const RegisterScreen();
+      case routeDialogScreen:
+        screenObject = const DialogScreen();
+      case routeTabScreen:
+        screenObject = const TabScreen();
       default:
         screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
     }
