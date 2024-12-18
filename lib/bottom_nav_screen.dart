@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nov24batch5pm/gridview_screen.dart';
 import 'package:nov24batch5pm/home_screen.dart';
 import 'package:nov24batch5pm/list_screen.dart';
 import 'package:nov24batch5pm/login_screen.dart';
+import 'package:nov24batch5pm/matches_screen.dart';
 import 'package:nov24batch5pm/nested_nav_screen.dart';
 import 'package:nov24batch5pm/register_screen.dart';
 
@@ -17,7 +19,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   int selectedIndex = 0;
 
   final List _widgetsList = [
-    const HomeScreen(),
+    const MatchesScreen(),
     const GridviewScreen(),
     const LoginScreen(),
     const RegisterScreen(),
@@ -27,39 +29,61 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:_widgetsList[selectedIndex],
+      body: _widgetsList[selectedIndex],
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
-        height: 45,
-        animationDuration:const Duration(seconds: 5),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: Colors.transparent,
         onDestinationSelected: (index) {
           selectedIndex = index;
           setState(() {});
         },
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            tooltip: 'HOME',
-            label: 'Home',
+            icon: FaIcon(FontAwesomeIcons.heart),
+            selectedIcon: FaIcon(
+              FontAwesomeIcons.solidHeart,
+              color: Colors.red,
+            ),
+            tooltip: 'Matches',
+            label: 'Matches',
           ),
           NavigationDestination(
-            icon: Icon(Icons.search),
+            icon: FaIcon(FontAwesomeIcons.clock),
+            selectedIcon: FaIcon(
+              FontAwesomeIcons.clock,
+              color: Colors.red,
+            ),
+            label: 'Activity',
+          ),
+          NavigationDestination(
+            icon: Icon(
+              Icons.search,
+              size: 30,
+            ),
+            selectedIcon: Icon(
+              Icons.search,
+              size: 30,
+              color: Colors.red,
+            ),
             label: 'Search',
           ),
           NavigationDestination(
-            icon: Icon(Icons.add),
-            label: 'Add',
+            icon: Icon(Icons.message),
+            selectedIcon: Icon(
+              Icons.message,
+              color: Colors.red,
+            ),
+            label: 'Messages',
           ),
           NavigationDestination(
-            icon: Icon(Icons.video_camera_back),
-            label: 'Reels',
-            enabled: false,
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+            icon: FaIcon(FontAwesomeIcons.crown),
+            selectedIcon: FaIcon(
+              FontAwesomeIcons.crown,
+              color: Colors.red,
+            ),
+            label: 'Upgrades',
           ),
         ],
       ),
