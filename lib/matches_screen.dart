@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nov24batch5pm/utils/common_drawer_screen.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 
 class MatchesScreen extends StatefulWidget {
@@ -10,14 +11,38 @@ class MatchesScreen extends StatefulWidget {
 }
 
 class _MatchesScreenState extends State<MatchesScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        leading: const Padding(
-          padding: EdgeInsets.all(5),
-          child: CircleAvatar(
-            backgroundImage: AssetImage(img1),
+        leading: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Stack(
+            children: [
+              const CircleAvatar(
+                backgroundImage: AssetImage(img1),
+              ),
+              Positioned(
+                bottom: 2,
+                right: 0,
+                child: SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: FloatingActionButton(
+                    elevation: 0,
+                    backgroundColor: Colors.white,
+                    onPressed: () {
+                      _scaffoldKey.currentState!.openDrawer();
+                    },
+                    child: const Icon(Icons.menu, size: 20,),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         title: const Text('Matches'),
@@ -36,6 +61,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
           ),
         ],
       ),
+      drawer:const CommonDrawerScreen(),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         children: [
@@ -103,15 +129,14 @@ class _MatchesScreenState extends State<MatchesScreen> {
                     decoration: const BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black54,
-                          blurRadius: 10,
-                          offset: Offset(0, 5)
-                        )
+                            color: Colors.black54,
+                            blurRadius: 10,
+                            offset: Offset(0, 5))
                       ],
                     ),
                     child: const Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -121,7 +146,8 @@ class _MatchesScreenState extends State<MatchesScreen> {
                             children: [
                               Text(
                                 'AD5156161',
-                                style: TextStyle(color: Colors.white, fontSize: 20),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
                               ),
                               SizedBox(width: 5),
                               Icon(
