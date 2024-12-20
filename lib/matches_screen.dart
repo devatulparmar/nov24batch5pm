@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nov24batch5pm/utils/common_drawer_screen.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MatchesScreen extends StatefulWidget {
   const MatchesScreen({super.key});
@@ -12,7 +13,30 @@ class MatchesScreen extends StatefulWidget {
 
 class _MatchesScreenState extends State<MatchesScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  String userName = '';
+  int userAge = 0;
+  double userHeight = 0.0;
+  List<String> userEducation = [];
 
+  late SharedPreferences _preferences;
+
+  void _initSharedPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
+    userName = _preferences.getString(prefName) ?? "";
+    userAge = _preferences.getInt(prefAge) ?? 0;
+    userHeight = _preferences.getDouble(prefHeight) ?? 0.0;
+    List<String> tempList = _preferences.getStringList(prefEducation) ?? [];
+    if (tempList.isNotEmpty) {
+      userEducation.addAll(tempList);
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initSharedPreferences();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +62,10 @@ class _MatchesScreenState extends State<MatchesScreen> {
                     onPressed: () {
                       _scaffoldKey.currentState!.openDrawer();
                     },
-                    child: const Icon(Icons.menu, size: 20,),
+                    child: const Icon(
+                      Icons.menu,
+                      size: 20,
+                    ),
                   ),
                 ),
               ),
@@ -61,7 +88,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
           ),
         ],
       ),
-      drawer:const CommonDrawerScreen(),
+      drawer: const CommonDrawerScreen(),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         children: [
@@ -134,9 +161,9 @@ class _MatchesScreenState extends State<MatchesScreen> {
                             offset: Offset(0, 5))
                       ],
                     ),
-                    child: const Padding(
+                    child: Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -145,12 +172,12 @@ class _MatchesScreenState extends State<MatchesScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                'AD5156161',
-                                style: TextStyle(
+                                userName,
+                                style: const TextStyle(
                                     color: Colors.white, fontSize: 20),
                               ),
-                              SizedBox(width: 5),
-                              Icon(
+                              const SizedBox(width: 5),
+                              const Icon(
                                 IconData(
                                   0xe699,
                                   fontFamily: 'MaterialIcons',
@@ -160,7 +187,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
                               ),
                             ],
                           ),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
@@ -169,7 +196,7 @@ class _MatchesScreenState extends State<MatchesScreen> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -177,18 +204,18 @@ class _MatchesScreenState extends State<MatchesScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '29 years 5.10',
-                                    style: TextStyle(color: Colors.white),
+                                    '$userAge years $userHeight',
+                                    style: const TextStyle(color: Colors.white),
                                   ),
-                                  Text(
+                                  const Text(
                                     'Caste',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  Text(
+                                  const Text(
                                     'Gujarati',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  Text(
+                                  const Text(
                                     'Ahmedabad',
                                     style: TextStyle(color: Colors.white),
                                   ),
@@ -197,19 +224,27 @@ class _MatchesScreenState extends State<MatchesScreen> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                  const Text(
                                     'Software Developer',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  Text(
+                                  const Text(
                                     'Rs. 7.5 - 10 Lakh',
                                     style: TextStyle(color: Colors.white),
                                   ),
-                                  Text(
-                                    'M.C.A, B.C.A',
-                                    style: TextStyle(color: Colors.white),
+                                  Row(
+                                    children: List.generate(
+                                      userEducation.length,
+                                      (int index) => Padding(
+                                        padding: const EdgeInsets.only(right: 3),
+                                        child: Text(
+                                          userEducation[index].toString(),
+                                          style: const TextStyle(color: Colors.white),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  Text(
+                                  const Text(
                                     'Never Married',
                                     style: TextStyle(color: Colors.white),
                                   ),

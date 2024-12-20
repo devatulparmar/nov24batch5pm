@@ -1,10 +1,7 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:nov24batch5pm/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +15,18 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  late SharedPreferences _preferences;
+
+  void _initSharedPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initSharedPreferences();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -529,14 +538,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         // showCloseIcon: true,
                         // closeIconColor: Colors.red,
                         action: SnackBarAction(
-                          onPressed: (){},
+                          onPressed: () {},
                           label: "Close",
                           textColor: Colors.white,
                         ),
                         // width: 200,
-
                       ),
                     );
+
+                    _preferences.setBool(prefIsLogin, true);
+                    _preferences.setString(prefName, "AD52344SD32");
+                    _preferences.setInt(prefAge, 28);
+                    _preferences.setDouble(prefHeight, 5.10);
+                    _preferences.setStringList(prefEducation, ["MCA","BCA"]);
+
+                    Navigator.pushNamedAndRemoveUntil(
+                        context, "/", (Route r) => false);
                   } else {
                     print('Validation failed');
                   }

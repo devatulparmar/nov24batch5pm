@@ -1,20 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nov24batch5pm/count_screen.dart';
-import 'package:nov24batch5pm/expanded_flexible_screen.dart';
-import 'package:nov24batch5pm/gridview_builder_screen.dart';
-import 'package:nov24batch5pm/gridview_count_screen.dart';
-import 'package:nov24batch5pm/gridview_extent_screen.dart';
-import 'package:nov24batch5pm/gridview_screen.dart';
-import 'package:nov24batch5pm/home_screen.dart';
-import 'package:nov24batch5pm/image_screen.dart';
-import 'package:nov24batch5pm/list_binding_screen.dart';
-import 'package:nov24batch5pm/list_build_screen.dart';
-import 'package:nov24batch5pm/list_generate_screen.dart';
-import 'package:nov24batch5pm/list_screen.dart';
-import 'package:nov24batch5pm/list_separated_screen.dart';
-import 'package:nov24batch5pm/list_separated_screen.dart';
-import 'package:nov24batch5pm/nested_list_screen.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonDrawerScreen extends StatefulWidget {
   const CommonDrawerScreen({super.key});
@@ -24,6 +10,46 @@ class CommonDrawerScreen extends StatefulWidget {
 }
 
 class _CommonDrawerScreenState extends State<CommonDrawerScreen> {
+  bool isLogin = false;
+  late SharedPreferences _preferences;
+
+  void _initSharedPreferences() async {
+    _preferences = await SharedPreferences.getInstance();
+    isLogin = _preferences.getBool(prefIsLogin) ?? false;
+    setState(() {});
+  }
+
+  void _logOut() async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Are you sure want to logout?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                _preferences.setBool(prefIsLogin, false);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, "/", (Route r) => false);
+              },
+              child: const Text('Yes'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initSharedPreferences();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -38,9 +64,22 @@ class _CommonDrawerScreenState extends State<CommonDrawerScreen> {
             duration: Duration(seconds: 5),
             decoration: BoxDecoration(color: Colors.blue),
             // padding: EdgeInsets.zero,
-            child: CircleAvatar(
-              radius: 100,
-              backgroundImage: AssetImage(img1),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundImage: AssetImage(img1),
+                ),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("User"),
+                    Text("Edit Profile"),
+                  ],
+                ),
+              ],
             ),
           ),
           ListView(
@@ -66,11 +105,40 @@ class _CommonDrawerScreenState extends State<CommonDrawerScreen> {
                 },
                 child: const Text('Help & Support'),
               ),
+              if (isLogin)
+                ElevatedButton(
+                  onPressed: _logOut,
+                  child: const Text('Logout'),
+                )
+              else
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, routeLoginScreen);
+                  },
+                  child: const Text('Login'),
+                ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, routeLoginScreen);
+                  _preferences.clear();
+
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, "/", (Route r) => false);
                 },
-                child: const Text('Login'),
+                child: const Text('Clear All Preferences'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _preferences.remove(prefEducation);
+                  if(_preferences.containsKey(prefEducation)){
+                    print(_preferences.get(prefEducation));
+                  } else {
+                    print('Not Found');
+                  }
+
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, "/", (Route r) => false);
+                },
+                child: const Text('Clear User Education'),
               ),
             ],
           ),

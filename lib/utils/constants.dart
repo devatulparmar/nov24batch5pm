@@ -13,3 +13,9 @@ const String routeGridviewProductsList = 'routeGridviewProductsList';
 const String routeRegisterScreen = 'routeRegisterScreen';
 const String routeDialogScreen = 'routeDialogScreen';
 const String routeTabScreen = 'routeTabScreen';
+
+const String prefIsLogin = 'isLogin';
+const String prefName = 'prefName';
+const String prefAge = 'prefAge';
+const String prefHeight = 'prefHeight';
+const String prefEducation = 'prefEducation';
