@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class ListBindingScreen extends StatefulWidget {
   const ListBindingScreen({super.key});
@@ -11,8 +14,22 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
   List<int> listObject = [1, 2, 3, 4, 5, 6];
 
   List<String> cityNamesListObject = ["Vadodara", "Ahmedabad", "Surat", "Rajkot"];
-
+  List userList = [];
   List list = [];
+
+  Future _getUserList() async {
+    Uri urlLink = Uri.parse("https://reqres.in/api/users");
+    http.Response responseObject = await http.get(urlLink);
+    var dataObject = jsonDecode(responseObject.body);
+    userList = dataObject["data"] as List;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getUserList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +38,7 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
         title: const Text('List Binding Screen'),
       ),
       body: ListView.builder(
-        itemCount: cityNamesListObject.length,
+        itemCount: userList.length,
         physics: const ScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
           return Container(
@@ -30,7 +47,10 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
             color: Colors.blueAccent,
             margin: const EdgeInsets.all(10),
             child: Center(
-              child: Text(cityNamesListObject[index].toString()),
+              child: CircleAvatar(
+                radius: 100,
+                backgroundImage: NetworkImage(userList[index]["avatar"].toString(),),
+              ),
             ),
           );
         },
