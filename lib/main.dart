@@ -21,7 +21,8 @@ class App extends StatelessWidget {
             backgroundColor: Colors.green,
             iconTheme: IconThemeData(color: Colors.white),
             titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
-          )),
+          ),
+      ),
       onGenerateRoute: MyAppRoute.onGenerateRoute,
       // routes: {
       //   "/": (BuildContext context) => const Screen1(),

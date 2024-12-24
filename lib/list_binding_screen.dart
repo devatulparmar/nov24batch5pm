@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:nov24batch5pm/model/user_model.dart';
 
 class ListBindingScreen extends StatefulWidget {
   const ListBindingScreen({super.key});
@@ -13,15 +13,21 @@ class ListBindingScreen extends StatefulWidget {
 class _ListBindingScreenState extends State<ListBindingScreen> {
   List<int> listObject = [1, 2, 3, 4, 5, 6];
 
-  List<String> cityNamesListObject = ["Vadodara", "Ahmedabad", "Surat", "Rajkot"];
-  List userList = [];
-  List list = [];
+  List<String> cityNamesListObject = [
+    "Vadodara",
+    "Ahmedabad",
+    "Surat",
+    "Rajkot"
+  ];
+  List tempList = [];
+  List<UserData> originalUserList = [];
 
   Future _getUserList() async {
     Uri urlLink = Uri.parse("https://reqres.in/api/users");
     http.Response responseObject = await http.get(urlLink);
     var dataObject = jsonDecode(responseObject.body);
-    userList = dataObject["data"] as List;
+    tempList = dataObject["data"] as List;
+    originalUserList = tempList.map((item) => UserData.fromJson(item)).toList();
     setState(() {});
   }
 
@@ -38,33 +44,55 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
         title: const Text('List Binding Screen'),
       ),
       body: ListView.builder(
-        itemCount: userList.length,
+        itemCount: originalUserList.length,
         physics: const ScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            height: 300,
-            width: 300,
+          return Card(
             color: Colors.blueAccent,
+            elevation: 5,
             margin: const EdgeInsets.all(10),
-            child: Center(
-              child: CircleAvatar(
-                radius: 100,
-                backgroundImage: NetworkImage(userList[index]["avatar"].toString(),),
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundImage: NetworkImage(
+                      originalUserList[index].avatar ?? "",
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("User Id : ${originalUserList[index].id ?? ''}"),
+                      Text("User First Name : ${originalUserList[index].firstName ?? ''}"),
+                      Text("User Last Name : ${originalUserList[index].lastName ?? ''}"),
+                      Text("User Email : ${originalUserList[index].email ?? ''}"),
+                      Text("User Age : ${originalUserList[index].age ?? ''}"),
+                    ],
+                  ),
+                )
+              ],
             ),
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          // cityNamesListObject.addAll(["Halol", "Kalol"]);
-          // cityNamesListObject.add(["Halol", "Kalol"]);
-          setState(() {});
-        },
-        child: const Icon(
-          Icons.remove,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //     // cityNamesListObject.addAll(["Halol", "Kalol"]);
+      //     // cityNamesListObject.add(["Halol", "Kalol"]);
+      //     setState(() {});
+      //   },
+      //   child: const Icon(
+      //     Icons.remove,
+      //   ),
+      // ),
     );
   }
 }
