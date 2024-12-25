@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nov24batch5pm/utils/constants.dart';
 import 'package:nov24batch5pm/utils/route.dart';
 
 void main() {
@@ -13,6 +14,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'main',
       debugShowCheckedModeBanner: false,
+      navigatorKey: mainKey,
       theme: ThemeData(
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
             backgroundColor: Colors.red,

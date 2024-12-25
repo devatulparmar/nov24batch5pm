@@ -1,4 +1,6 @@
 
+import 'package:flutter/cupertino.dart';
+
 const String img1 = "atul/image1.jpg";
 const String img2 = "atul/image2.jpg";
 const String img3 = "images/img3.jpg";
@@ -19,3 +21,5 @@ const String prefName = 'prefName';
 const String prefAge = 'prefAge';
 const String prefHeight = 'prefHeight';
 const String prefEducation = 'prefEducation';
+
+GlobalKey<NavigatorState> mainKey = GlobalKey<NavigatorState>();
