@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:nov24batch5pm/repository/api_repository.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,18 +30,26 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {
       isLoading = true;
     });
-    http.Response response = await http.post(
-      Uri.parse("https://reqres.in/api/login"),
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
+    // http.Response response = await http.post(
+    //   Uri.parse("https://reqres.in/api/login"),
+    //   // headers: {
+    //   //   "Content-Type": "application/json",
+    //   // },
+    //   body: {
+    //     "email": emailController.text,
+    //     "password": passwordController.text,
+    //   },
+    // );
+
+    var response = await ApiRepository().postAPICall(
+      url: "https://reqres.in/api/login",
       body: {
         "email": emailController.text,
         "password": passwordController.text,
       },
     );
     var jsonValue = jsonDecode(response.body);
-    if (response.statusCode == 200) {
+    if (response.statusCode == statusCodeOk) {
       setState(() {
         isLoading = false;
       });
@@ -75,7 +83,8 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
 
-      Navigator.pushNamedAndRemoveUntil(mainKey.currentContext!, "/", (Route r) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          mainKey.currentContext!, "/", (Route r) => false);
     } else {
       setState(() {
         isLoading = false;
@@ -624,8 +633,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: isLoading
                         ? const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Center(
+                            padding: EdgeInsets.all(10),
+                            child: Center(
                               child: SizedBox(
                                 height: 25,
                                 width: 25,
@@ -635,7 +644,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                             ),
-                        )
+                          )
                         : const Text('Login'),
                   ),
                 ],

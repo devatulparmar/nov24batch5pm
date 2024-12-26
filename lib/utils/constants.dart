@@ -23,3 +23,6 @@ const String prefHeight = 'prefHeight';
 const String prefEducation = 'prefEducation';
 
 GlobalKey<NavigatorState> mainKey = GlobalKey<NavigatorState>();
+
+const int statusCodeOk = 200;
+const int statusCodeInternalServerError = 500;

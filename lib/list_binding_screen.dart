@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:nov24batch5pm/model/user_model.dart';
+import 'package:nov24batch5pm/repository/api_repository.dart';
 
 class ListBindingScreen extends StatefulWidget {
   const ListBindingScreen({super.key});
@@ -24,7 +24,10 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
 
   Future _getUserList() async {
     Uri urlLink = Uri.parse("https://reqres.in/api/users");
-    http.Response responseObject = await http.get(urlLink);
+    // http.Response responseObject = await http.get(urlLink);
+    var responseObject = await ApiRepository().getAPICall(
+      url: "https://reqres.in/api/users",
+    );
     var dataObject = jsonDecode(responseObject.body);
     tempList = dataObject["data"] as List;
     originalUserList = tempList.map((item) => UserData.fromJson(item)).toList();
@@ -71,9 +74,12 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("User Id : ${originalUserList[index].id ?? ''}"),
-                      Text("User First Name : ${originalUserList[index].firstName ?? ''}"),
-                      Text("User Last Name : ${originalUserList[index].lastName ?? ''}"),
-                      Text("User Email : ${originalUserList[index].email ?? ''}"),
+                      Text(
+                          "User First Name : ${originalUserList[index].firstName ?? ''}"),
+                      Text(
+                          "User Last Name : ${originalUserList[index].lastName ?? ''}"),
+                      Text(
+                          "User Email : ${originalUserList[index].email ?? ''}"),
                       Text("User Age : ${originalUserList[index].age ?? ''}"),
                     ],
                   ),
