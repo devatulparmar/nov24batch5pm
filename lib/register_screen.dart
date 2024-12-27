@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:nov24batch5pm/utils/common_snackbar.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -53,6 +55,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: Text('Gandhinagar'),
     ),
   ];
+
+  void _openUrl() async {
+    var url = Uri.parse('utter.dev/');
+    if (await canLaunchUrl(url) == true) {
+      launchUrl(url, mode: LaunchMode.platformDefault);
+    } else {
+      MySnackBar.showMySnackBar(
+        content: "Can not launch URL",
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  String? _encodeQueryParameters(Map<String, String> object) {
+    return object.entries
+        .map((MapEntry<String, String> element) =>
+            '${Uri.encodeComponent(element.key)}=${Uri.encodeComponent(element.value)}')
+        .join('&');
+  }
+
+  void _openEmail() async {
+    var url = Uri(
+      scheme: "mailto",
+      path: "info@mayursoftware.in",
+      query: _encodeQueryParameters(<String, String>{
+        "subject": "This is subject",
+        "body": "This is body part",
+      }),
+    );
+
+    launchUrl(url);
+  }
+
+  void _openSMS() {
+    var number = Uri(scheme: "sms", path: "+919876543210", queryParameters: {
+      "body": "Hello, How are you?",
+    });
+
+    launchUrl(number);
+  }
+
+  void _openPhone() async {
+    var phone = Uri(
+      scheme: "tel",
+      path: "+919876543210",
+    );
+
+    launchUrl(phone);
+  }
 
   bool _validateRegisterForm() {
     if (formKey.currentState!.validate()) {
@@ -722,6 +773,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               subtitle: GestureDetector(
                 onTap: () {
                   print('clicked');
+                  _openUrl();
                 },
                 onLongPress: () {
                   print('onLongPress clicked');
@@ -800,6 +852,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 }
               },
               child: const Text('Register'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _openEmail,
+              child: const Text('Contact us on Email'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _openSMS,
+              child: const Text('Contact us on Message'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _openPhone,
+              child: const Text('Contact us on Phone'),
             ),
             const SizedBox(height: 50),
           ],
