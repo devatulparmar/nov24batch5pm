@@ -1,4 +1,6 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,6 +14,47 @@ class CommonDrawerScreen extends StatefulWidget {
 class _CommonDrawerScreenState extends State<CommonDrawerScreen> {
   bool isLogin = false;
   late SharedPreferences _preferences;
+  Location location = Location();
+
+  bool isServiceEnabled = false;
+  late PermissionStatus permissionGranted;
+  late LocationData _locationData;
+
+  Future _getLocation() async {
+    print(permissionGranted);
+    if(permissionGranted == PermissionStatus.deniedForever){
+      AppSettings.openAppSettings(type: AppSettingsType.settings);
+    } else {
+      var obj = await location.getLocation();
+      _locationData = obj;
+      print(_locationData);
+    }
+  }
+
+  Future _checkLocationServiceEnable() async {
+    /// this function will call to check location is On/Off
+
+    isServiceEnabled = await location.serviceEnabled();
+    if (isServiceEnabled == false) {
+      isServiceEnabled = await location.requestService();
+      if (isServiceEnabled == false) {
+        return;
+      }
+    }
+  }
+
+  Future _checkLocationPermissionGranted() async {
+    /// this function will call to check user give permission to access location
+
+    permissionGranted = await location.hasPermission();
+    print(permissionGranted);
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+  }
 
   void _initSharedPreferences() async {
     _preferences = await SharedPreferences.getInstance();
@@ -48,6 +91,8 @@ class _CommonDrawerScreenState extends State<CommonDrawerScreen> {
   void initState() {
     super.initState();
     _initSharedPreferences();
+    _checkLocationServiceEnable();
+    _checkLocationPermissionGranted();
   }
 
   @override
@@ -77,6 +122,7 @@ class _CommonDrawerScreenState extends State<CommonDrawerScreen> {
                   children: [
                     Text("User"),
                     Text("Edit Profile"),
+                    Text("Location"),
                   ],
                 ),
               ],
@@ -87,6 +133,12 @@ class _CommonDrawerScreenState extends State<CommonDrawerScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(5),
             children: [
+              ElevatedButton(
+                onPressed: () {
+                  _getLocation();
+                },
+                child: const Text('Get Location'),
+              ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, routeLoginScreen);
