@@ -10,6 +10,7 @@ import 'package:nov24batch5pm/register_screen.dart';
 import 'package:nov24batch5pm/screen1.dart';
 import 'package:nov24batch5pm/screen2.dart';
 import 'package:nov24batch5pm/screen5.dart';
+import 'package:nov24batch5pm/stream_example.dart';
 import 'package:nov24batch5pm/tab_screen.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 
@@ -31,24 +32,28 @@ class MyAppRoute {
         screenObject = const LoginScreen2();
       case routeGridviewProductsList:
         screenObject = const GridviewProductsList();
-        case routeRegisterScreen:
+      case routeRegisterScreen:
         screenObject = const RegisterScreen();
-        case routeDialogScreen:
+      case routeDialogScreen:
         screenObject = const DialogScreen();
-        case routeTabScreen:
+      case routeTabScreen:
         screenObject = const TabScreen();
+      case routeStreamScreen:
+        screenObject = const MyStreamScreen();
       default:
         screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
     }
     return MaterialPageRoute(builder: (BuildContext context) => screenObject);
   }
 
-  static Route<dynamic> onGenerateNestedRoute(RouteSettings settingObject){
+  static Route<dynamic> onGenerateNestedRoute(RouteSettings settingObject) {
     Widget screenObject;
     switch (settingObject.name) {
       case '/':
         screenObject = const HomeScreen();
         break;
+      case routeStreamScreen:
+        screenObject = const MyStreamScreen();
       case routeLoginScreen:
         screenObject = const LoginScreen();
       case routeLoginScreen2:
