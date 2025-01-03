@@ -38,6 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           ElevatedButton(
             onPressed: () {
+              Navigator.pushNamed(context, routeStreamListScreen);
+            },
+            child: const Text('Stream List Screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
               Navigator.pushNamed(context, routeStreamScreen);
             },
             child: const Text('Stream Screen'),

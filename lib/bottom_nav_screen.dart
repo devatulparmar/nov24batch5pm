@@ -19,11 +19,11 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   int selectedIndex = 0;
 
   final List _widgetsList = [
+    const NestedNavScreen(),
     const MatchesScreen(),
     const GridviewScreen(),
     const LoginScreen(),
     const RegisterScreen(),
-    const NestedNavScreen(),
   ];
 
   @override

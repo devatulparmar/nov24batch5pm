@@ -11,6 +11,7 @@ import 'package:nov24batch5pm/screen1.dart';
 import 'package:nov24batch5pm/screen2.dart';
 import 'package:nov24batch5pm/screen5.dart';
 import 'package:nov24batch5pm/stream_example.dart';
+import 'package:nov24batch5pm/stream_list_screen.dart';
 import 'package:nov24batch5pm/tab_screen.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 
@@ -40,6 +41,8 @@ class MyAppRoute {
         screenObject = const TabScreen();
       case routeStreamScreen:
         screenObject = const MyStreamScreen();
+        case routeStreamListScreen:
+        screenObject = const StreamListScreen();
       default:
         screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
     }
@@ -54,6 +57,8 @@ class MyAppRoute {
         break;
       case routeStreamScreen:
         screenObject = const MyStreamScreen();
+      case routeStreamListScreen:
+        screenObject = const StreamListScreen();
       case routeLoginScreen:
         screenObject = const LoginScreen();
       case routeLoginScreen2:
