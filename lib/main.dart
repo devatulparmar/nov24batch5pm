@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nov24batch5pm/services/firebase_services.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 import 'package:nov24batch5pm/utils/route.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await MyFirebaseServices().initializeDefault();
   runApp(const App());
 }
 
