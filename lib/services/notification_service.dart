@@ -123,8 +123,7 @@ class NotificationService {
   Future<void> isAndroidPermissionGranted() async {
     if (Platform.isAndroid) {
       await objLocalNotification
-          .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
           ?.areNotificationsEnabled();
     }
   }
@@ -132,39 +131,33 @@ class NotificationService {
   Future<void> requestPermissions() async {
     if (Platform.isIOS) {
       await objLocalNotification
-          .resolvePlatformSpecificImplementation<
-          IOSFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
         alert: true,
         badge: true,
         sound: true,
         critical: true,
       );
-      // await objLocalNotification
-      //     .resolvePlatformSpecificImplementation<
-      //         MacOSFlutterLocalNotificationsPlugin>()
-      //     ?.requestPermissions(
-      //       alert: true,
-      //       badge: true,
-      //       sound: true,
-      //       critical: true,
-      //     );
-    } else if (Platform.isAndroid) {
+    }
+    else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-      objLocalNotification.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
+      objLocalNotification.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+
       await androidImplementation?.requestNotificationsPermission();
     }
   }
 
   configureDidReceiveLocalNotificationSubject() {
     didReceiveLocalNotificationStream.stream
-        .listen((ReceivedNotificationModel receivedNotification) async {});
+        .listen((ReceivedNotificationModel receivedNotification) async {
+
+    });
   }
 
   configureSelectNotificationSubject() {
     selectNotificationStream.stream.listen((dynamic payload) async {
       debugPrint('selectNotificationStream---> $payload');
+
     });
   }
 

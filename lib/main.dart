@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/services/firebase_services.dart';
+import 'package:nov24batch5pm/services/notification_service.dart';
+import 'package:nov24batch5pm/services/push_notification_service.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 import 'package:nov24batch5pm/utils/route.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await PushNotificationService().onFMBackgroundMessage();
   await MyFirebaseServices().initializeDefault();
+  await NotificationService().init();
+  await NotificationService().isAndroidPermissionGranted();
+  await NotificationService().requestPermissions();
+  await NotificationService().configureDidReceiveLocalNotificationSubject();
+  await NotificationService().configureSelectNotificationSubject();
+  await PushNotificationService().setupInteractedMessage();
   runApp(const App());
 }
 
