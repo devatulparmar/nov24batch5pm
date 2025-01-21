@@ -49,26 +49,21 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="high_importance_channel" />
+            android:value="nov24batch5pmChannel" />
 
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBDrxFpkDrwvEgYcKBHAqD1Itxt8H1DN8M"/>
+            android:value="AIzaSyCNL1m7LXmi06sKKMQAfER1KRIfauw3mtE"/>
 
         <!-- Service for Firebase Messaging -->
-<!--        <service-->
-<!--            android:name="com.google.firebase.messaging.FirebaseMessagingService"-->
-<!--            android:exported="false"-->
-<!--            tools:ignore="MissingClass">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-<!--            </intent-filter>-->
-<!--        </service>-->
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false"
+            tools:ignore="MissingClass">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
-    <!-- Required to query activities that can process text, see:
-         https://developer.android.com/training/package-visibility and
-         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
-
-         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>

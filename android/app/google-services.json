@@ -7,15 +7,15 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:346307667712:android:6ec57437ce921267cef5e5",
+        "mobilesdk_app_id": "1:346307667712:android:3b0b630b3616e042cef5e5",
         "android_client_info": {
-          "package_name": "com.example.nov24batch5pm"
+          "package_name": "com.weltec.nov24batch5pm"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBDrxFpkDrwvEgYcKBHAqD1Itxt8H1DN8M"
+          "current_key": "AIzaSyCNL1m7LXmi06sKKMQAfER1KRIfauw3mtE"
         }
       ],
       "services": {

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -6,17 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 const channel = AndroidNotificationChannel(
-  'high_importance_channel',
+  'nov24batch5pmChannel',
   'High Importance Notifications',
   importance: Importance.high,
   playSound: false,
 );
 
-final FlutterLocalNotificationsPlugin objLocalNotification = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin objLocalNotification =
+    FlutterLocalNotificationsPlugin();
 
-final StreamController<ReceivedNotificationModel> didReceiveLocalNotificationStream = StreamController<ReceivedNotificationModel>.broadcast();
+final StreamController<ReceivedNotification> didReceiveLocalNotificationStream =
+    StreamController<ReceivedNotification>.broadcast();
 
-final StreamController<String?> selectNotificationStream = StreamController<String?>.broadcast();
+final StreamController<String?> selectNotificationStream =
+    StreamController<String?>.broadcast();
 
 const String navigationActionId = 'id_3';
 
@@ -24,8 +26,8 @@ const String darwinNotificationCategoryText = 'textCategory';
 
 const String darwinNotificationCategoryPlain = 'plainCategory';
 
-class ReceivedNotificationModel {
-  ReceivedNotificationModel({
+class ReceivedNotification {
+  ReceivedNotification({
     required this.id,
     required this.title,
     required this.body,
@@ -39,7 +41,8 @@ class ReceivedNotificationModel {
 }
 
 class NotificationService {
-  static final NotificationService _notificationService = NotificationService._internal();
+  static final NotificationService _notificationService =
+      NotificationService._internal();
 
   factory NotificationService() => _notificationService;
 
@@ -91,14 +94,15 @@ class NotificationService {
     ];
 
     const androidSettings =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     final darwinSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
-      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
-        didReceiveLocalNotificationStream.add(ReceivedNotificationModel(
+      onDidReceiveLocalNotification:
+          (int id, String? title, String? body, String? payload) async {
+        didReceiveLocalNotificationStream.add(ReceivedNotification(
           id: id,
           title: title,
           body: body,
@@ -109,7 +113,7 @@ class NotificationService {
     );
 
     final initSettings =
-    InitializationSettings(android: androidSettings, iOS: darwinSettings);
+        InitializationSettings(android: androidSettings, iOS: darwinSettings);
 
     await objLocalNotification.initialize(
       initSettings,
@@ -123,7 +127,8 @@ class NotificationService {
   Future<void> isAndroidPermissionGranted() async {
     if (Platform.isAndroid) {
       await objLocalNotification
-          .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
           ?.areNotificationsEnabled();
     }
   }
@@ -131,40 +136,46 @@ class NotificationService {
   Future<void> requestPermissions() async {
     if (Platform.isIOS) {
       await objLocalNotification
-          .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+          .resolvePlatformSpecificImplementation<
+              IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
-        alert: true,
-        badge: true,
-        sound: true,
-        critical: true,
-      );
-    }
-    else if (Platform.isAndroid) {
+            alert: true,
+            badge: true,
+            sound: true,
+            critical: true,
+          );
+      // await objLocalNotification
+      //     .resolvePlatformSpecificImplementation<
+      //         MacOSFlutterLocalNotificationsPlugin>()
+      //     ?.requestPermissions(
+      //       alert: true,
+      //       badge: true,
+      //       sound: true,
+      //       critical: true,
+      //     );
+    } else if (Platform.isAndroid) {
       final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-      objLocalNotification.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
-
+          objLocalNotification.resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>();
       await androidImplementation?.requestNotificationsPermission();
     }
   }
 
   configureDidReceiveLocalNotificationSubject() {
     didReceiveLocalNotificationStream.stream
-        .listen((ReceivedNotificationModel receivedNotification) async {
-
-    });
+        .listen((ReceivedNotification receivedNotification) async {});
   }
 
   configureSelectNotificationSubject() {
     selectNotificationStream.stream.listen((dynamic payload) async {
       debugPrint('selectNotificationStream---> $payload');
-
     });
   }
 
   Future<void> showNotifications(
       {String? title,
-        String? description,
-        Map<String, dynamic>? messageData}) async {
+      String? description,
+      Map<String, dynamic>? messageData}) async {
     await objLocalNotification.show(
       objLocalNotification.hashCode,
       "$title",
