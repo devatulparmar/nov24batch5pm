@@ -13,17 +13,32 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyCNL1m7LXmi06sKKMQAfER1KRIfauw3mtE",
-      appId: "1:346307667712:android:3b0b630b3616e042cef5e5",
-      messagingSenderId: "346307667712",
-      projectId: "nov24batch5pm",
-    ),
-  );
+  if(Platform.isAndroid){
+    await Firebase.initializeApp(
+      name: "androidFirebaseApp",
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyCNL1m7LXmi06sKKMQAfER1KRIfauw3mtE",
+        appId: "1:346307667712:android:3b0b630b3616e042cef5e5",
+        messagingSenderId: "346307667712",
+        projectId: "nov24batch5pm",
+      ),
+    );
+  } else if(Platform.isIOS){
+    await Firebase.initializeApp(
+      name: "iosFirebaseApp",
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyCNL1m7LXmi06sKKMQAfER1KRIfauw3mtE",
+        appId: "1:346307667712:ios:8331e949f507f7e2cef5e5",
+        messagingSenderId: "346307667712",
+        projectId: "nov24batch5pm",
+      ),
+    );
+  }
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await NotificationService().init();
-  await NotificationService().isAndroidPermissionGranted();
+  if(Platform.isAndroid){
+    await NotificationService().isAndroidPermissionGranted();
+  }
   await NotificationService().requestPermissions();
   await NotificationService().configureDidReceiveLocalNotificationSubject();
   await NotificationService().configureSelectNotificationSubject();
