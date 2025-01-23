@@ -15,7 +15,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if(Platform.isAndroid){
     await Firebase.initializeApp(
-      name: "androidFirebaseApp",
       options: const FirebaseOptions(
         apiKey: "AIzaSyCNL1m7LXmi06sKKMQAfER1KRIfauw3mtE",
         appId: "1:346307667712:android:3b0b630b3616e042cef5e5",

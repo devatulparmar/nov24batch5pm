@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:nov24batch5pm/repository/api_repository.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
+import 'package:nov24batch5pm/utils/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -15,6 +18,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isObscureTextEnable = true;
+  String userSocialEmail = '';
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -24,6 +28,36 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _initSharedPreferences() async {
     _preferences = await SharedPreferences.getInstance();
+  }
+
+  Future _handleSignIn() async {
+    setState(() => isLoading = true);
+    final GoogleSignInProvider googleSignIn = GoogleSignInProvider();
+    try {
+      final UserCredential userCredential = await googleSignIn.signIn();
+      final user = userCredential.user;
+      debugPrint('user email is = ${user?.email}');
+      if (await GoogleSignIn().isSignedIn()) {
+        setState(() {
+          userSocialEmail = user!.email!;
+        });
+        // return _loginWithGoogleAPI();
+      }
+    } catch (error) {
+      print(error);
+    }
+    setState(() => isLoading = false);
+  }
+
+  Future _handleSignOut() async {
+    setState(() => isLoading = true);
+    final GoogleSignInProvider googleSignIn = GoogleSignInProvider();
+    try {
+     await googleSignIn.signOut();
+    } catch (error) {
+      print(error);
+    }
+    setState(() => isLoading = false);
   }
 
   Future _loginAPI() async {
@@ -623,30 +657,48 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: const Text('Login'),
                   ),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate() == true) {
-                        _loginAPI();
-                      } else {
-                        print('Validation failed');
-                      }
+                      _handleSignIn();
                     },
-                    child: isLoading
-                        ? const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Center(
-                              child: SizedBox(
-                                height: 25,
-                                width: 25,
-                                child: CircularProgressIndicator(
-                                  color: Colors.red,
-                                  strokeWidth: 3,
-                                ),
-                              ),
-                            ),
-                          )
-                        : const Text('Login'),
+                    child: const Text('Login With Google'),
                   ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      _handleSignOut();
+                    },
+                    child: const Text('Logout Google'),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  ///Loader Button
+                  // ElevatedButton(
+                  //   onPressed: () {
+                  //     if (formKey.currentState!.validate() == true) {
+                  //       _loginAPI();
+                  //     } else {
+                  //       print('Validation failed');
+                  //     }
+                  //   },
+                  //   child: isLoading
+                  //       ? const Padding(
+                  //           padding: EdgeInsets.all(10),
+                  //           child: Center(
+                  //             child: SizedBox(
+                  //               height: 25,
+                  //               width: 25,
+                  //               child: CircularProgressIndicator(
+                  //                 color: Colors.red,
+                  //                 strokeWidth: 3,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         )
+                  //       : const Text('Login'),
+                  // ),
                 ],
               ),
             ),
@@ -656,11 +708,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Container(
               height: MediaQuery.of(context).size.height,
               color: Colors.black26,
-              // child: const Center(
-              //   child: CircularProgressIndicator(
-              //     color: Colors.red,
-              //   ),
-              // ),
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                ),
+              ),
             ),
           ),
         ],

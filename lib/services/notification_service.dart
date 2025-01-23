@@ -41,8 +41,7 @@ class ReceivedNotification {
 }
 
 class NotificationService {
-  static final NotificationService _notificationService =
-      NotificationService._internal();
+  static final NotificationService _notificationService = NotificationService._internal();
 
   factory NotificationService() => _notificationService;
 
