@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           userSocialEmail = user!.email!;
         });
-        // return _loginWithGoogleAPI();
+        return _loginWithGoogleAPI();
       }
     } catch (error) {
       print(error);
@@ -80,6 +80,80 @@ class _LoginScreenState extends State<LoginScreen> {
       body: {
         "email": emailController.text,
         "password": passwordController.text,
+      },
+    );
+    var jsonValue = jsonDecode(response.body);
+    if (response.statusCode == statusCodeOk) {
+      setState(() {
+        isLoading = false;
+      });
+      _preferences.setString("token", jsonValue['token']);
+      _preferences.setBool(prefIsLogin, true);
+      _preferences.setString(prefName, "AD52344SD32");
+      _preferences.setInt(prefAge, 28);
+      _preferences.setDouble(prefHeight, 5.10);
+      _preferences.setStringList(prefEducation, ["MCA", "BCA"]);
+
+      ScaffoldMessenger.of(mainKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: const Text('Login Success.'),
+          backgroundColor: Colors.green,
+          padding: const EdgeInsets.all(10),
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(35),
+          ),
+          duration: const Duration(seconds: 15),
+          behavior: SnackBarBehavior.floating,
+          // margin: const EdgeInsets.all(20),
+          // showCloseIcon: true,
+          // closeIconColor: Colors.red,
+          action: SnackBarAction(
+            onPressed: () {},
+            label: "Close",
+            textColor: Colors.white,
+          ),
+          // width: 200,
+        ),
+      );
+
+      Navigator.pushNamedAndRemoveUntil(
+          mainKey.currentContext!, "/", (Route r) => false);
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(mainKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text('${jsonValue['error']}'),
+          backgroundColor: Colors.red,
+          padding: const EdgeInsets.all(10),
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(35),
+          ),
+          duration: const Duration(seconds: 10),
+          behavior: SnackBarBehavior.floating,
+          action: SnackBarAction(
+            onPressed: () {},
+            label: "Close",
+            textColor: Colors.white,
+          ),
+          // width: 200,
+        ),
+      );
+    }
+  }
+
+  Future _loginWithGoogleAPI() async {
+    setState(() {
+      isLoading = true;
+    });
+    var response = await ApiRepository().postAPICall(
+      url: "https://reqres.in/api/login",
+      body: {
+        "email": userSocialEmail,
+        "social": "google",
       },
     );
     var jsonValue = jsonDecode(response.body);
