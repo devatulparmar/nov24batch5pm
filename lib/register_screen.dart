@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:nov24batch5pm/utils/common_snackbar.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
+import 'package:nov24batch5pm/utils/google_sign_in.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -206,6 +207,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
       var formatedDate = DateFormat("dd/MM/yyyy").format(date); // 16-12-2006
       dateOfBirth = formatedDate.toString();
       setState(() {});
+    }
+  }
+
+
+  Future _handleSignOut() async {
+    final GoogleSignInProvider googleSignIn = GoogleSignInProvider();
+    try {
+      await googleSignIn.signOut();
+    } catch (error) {
+      print(error);
     }
   }
 
@@ -867,6 +878,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ElevatedButton(
               onPressed: _openPhone,
               child: const Text('Contact us on Phone'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                debugPrint('logout clicked');
+                _handleSignOut();
+              },
+              child: const Text('Logout Google'),
             ),
             const SizedBox(height: 50),
           ],
