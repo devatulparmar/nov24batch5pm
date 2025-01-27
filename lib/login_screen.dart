@@ -219,6 +219,41 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Future<bool?> _showBackDialog() {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure?'),
+          content: const Text(
+            'Are you sure you want to leave this page?',
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Nevermind'),
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Leave'),
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -230,6 +265,27 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login Screen'),
+        leading: PopScope<Object?>(
+          canPop: false,
+          onPopInvokedWithResult: (bool didPop, Object? result) async {
+            if (didPop) {
+              return;
+            }
+            final bool shouldPop = await _showBackDialog() ?? false;
+            if (shouldPop) {
+              Navigator.pop(mainKey.currentContext!);
+            }
+          },
+          child: IconButton(
+            onPressed: () async {
+              final bool shouldPop = await _showBackDialog() ?? false;
+              if (context.mounted && shouldPop) {
+                Navigator.pop(context);
+              }
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
+        ),
       ),
       body: Stack(
         children: [

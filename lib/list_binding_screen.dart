@@ -22,7 +22,7 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
   List tempList = [];
   List<UserData> originalUserList = [];
 
-  Future _getUserList() async {
+  Future<List<UserData>> _getUserList() async {
     Uri urlLink = Uri.parse("https://reqres.in/api/users");
     // http.Response responseObject = await http.get(urlLink);
     var responseObject = await ApiRepository().getAPICall(
@@ -32,6 +32,7 @@ class _ListBindingScreenState extends State<ListBindingScreen> {
     tempList = dataObject["data"] as List;
     originalUserList = tempList.map((item) => UserData.fromJson(item)).toList();
     setState(() {});
+    return originalUserList;
   }
 
   @override
