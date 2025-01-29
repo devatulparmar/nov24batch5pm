@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -26,16 +27,52 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<String> imageList = [
+    "https://images.unsplash.com/photo-1579353977828-2a4eab540b9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.all-free-download.com/images/graphicwebp/red_rose_close_up_566165.webp",
+    "https://images.unsplash.com/photo-1579353977828-2a4eab540b9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1579353977828-2a4eab540b9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "https://images.unsplash.com/photo-1579353977828-2a4eab540b9a?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
       ),
-      drawer:const CommonDrawerScreen(),
-      endDrawer:const CommonDrawerScreen(),
+      drawer: const CommonDrawerScreen(),
+      endDrawer: const CommonDrawerScreen(),
       body: ListView(
         children: [
+          CarouselSlider(
+            items: imageList.map((itemUrl) {
+              return GestureDetector(
+                onTap: (){
+                  print(itemUrl);
+                },
+                child: Image(
+                  image: NetworkImage(itemUrl),
+                  fit: BoxFit.cover,
+                ),
+              );
+            }).toList(),
+            options: CarouselOptions(
+              // height: 300,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 2),
+              autoPlayAnimationDuration: const Duration(milliseconds: 2500),
+              aspectRatio: 1.5,
+              viewportFraction: 0.90,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              reverse: false,
+              autoPlayCurve: Curves.slowMiddle,
+              enlargeCenterPage: true,
+              enlargeFactor: 1,
+              scrollDirection: Axis.vertical,
+            ),
+          ),
           ElevatedButton(
             onPressed: () {
               Navigator.pushNamed(context, routeStreamListScreen);

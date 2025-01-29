@@ -25,6 +25,7 @@ dependencies:
   flutter_local_notifications: ^17.2.3
   google_sign_in: ^6.2.2
   firebase_auth: ^5.4.1
+  carousel_slider: ^5.0.0
 
 dev_dependencies:
   flutter_test:
