@@ -75,6 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ElevatedButton(
             onPressed: () {
+              Navigator.pushNamed(context, routeGoogleMapsScreen);
+            },
+            child: const Text('Google Maps Screen'),
+          ),
+          ElevatedButton(
+            onPressed: () {
               Navigator.pushNamed(context, routeStreamListScreen);
             },
             child: const Text('Stream List Screen'),

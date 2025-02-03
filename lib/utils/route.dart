@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nov24batch5pm/bottom_nav_screen.dart';
 import 'package:nov24batch5pm/dialog_screen.dart';
+import 'package:nov24batch5pm/google_maps_screen.dart';
 import 'package:nov24batch5pm/gridview_products_list.dart';
 import 'package:nov24batch5pm/home_screen.dart';
 import 'package:nov24batch5pm/login_screen.dart';
@@ -43,6 +44,8 @@ class MyAppRoute {
         screenObject = const MyStreamScreen();
         case routeStreamListScreen:
         screenObject = const StreamListScreen();
+        case routeGoogleMapsScreen:
+        screenObject = const GoogleMapsScreen();
       default:
         screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
     }
@@ -71,6 +74,8 @@ class MyAppRoute {
         screenObject = const DialogScreen();
       case routeTabScreen:
         screenObject = const TabScreen();
+      case routeGoogleMapsScreen:
+        screenObject = const GoogleMapsScreen();
       default:
         screenObject = NoRouteFoundScreen(name: settingObject.name.toString());
     }

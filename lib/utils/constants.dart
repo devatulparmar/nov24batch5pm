@@ -17,6 +17,7 @@ const String routeDialogScreen = 'routeDialogScreen';
 const String routeTabScreen = 'routeTabScreen';
 const String routeStreamScreen = 'routeStreamScreen';
 const String routeStreamListScreen = 'routeStreamListScreen';
+const String routeGoogleMapsScreen = 'routeGoogleMapsScreen';
 
 const String prefIsLogin = 'isLogin';
 const String prefName = 'prefName';

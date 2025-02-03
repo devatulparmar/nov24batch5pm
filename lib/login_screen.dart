@@ -8,6 +8,7 @@ import 'package:nov24batch5pm/repository/api_repository.dart';
 import 'package:nov24batch5pm/utils/constants.dart';
 import 'package:nov24batch5pm/utils/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -25,6 +26,96 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isLoading = false;
 
   late SharedPreferences _preferences;
+
+  final dio = Dio();
+
+  Future _loginUsingDio() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final response = await dio.post(
+      "https://api.slingacademy.com/v1/sample-data/users?",
+      data: FormData.fromMap({
+          "email": emailController.text,
+          "password": passwordController.text,
+        }),
+      options: Options(
+        headers: {},
+        contentType: "application/json",
+        followRedirects: false,
+        receiveTimeout: const Duration(seconds: 5),
+        sendTimeout: const Duration(seconds: 2),
+      ),
+      queryParameters: <String, dynamic>{
+        "offset": 1,
+        "limit": 5,
+      },
+    );
+
+    var jsonValue = response.data;
+
+    if (response.statusCode == statusCodeOk) {
+      setState(() {
+        isLoading = false;
+      });
+      _preferences.setString("token", jsonValue['token']);
+      _preferences.setBool(prefIsLogin, true);
+      _preferences.setString(prefName, "AD52344SD32");
+      _preferences.setInt(prefAge, 28);
+      _preferences.setDouble(prefHeight, 5.10);
+      _preferences.setStringList(prefEducation, ["MCA", "BCA"]);
+
+      ScaffoldMessenger.of(mainKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: const Text('Login Success.'),
+          backgroundColor: Colors.green,
+          padding: const EdgeInsets.all(10),
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(35),
+          ),
+          duration: const Duration(seconds: 15),
+          behavior: SnackBarBehavior.floating,
+          // margin: const EdgeInsets.all(20),
+          // showCloseIcon: true,
+          // closeIconColor: Colors.red,
+          action: SnackBarAction(
+            onPressed: () {},
+            label: "Close",
+            textColor: Colors.white,
+          ),
+          // width: 200,
+        ),
+      );
+
+      Navigator.pushNamedAndRemoveUntil(
+          mainKey.currentContext!, "/", (Route r) => false);
+    } else {
+      setState(() {
+        isLoading = false;
+      });
+      ScaffoldMessenger.of(mainKey.currentContext!).showSnackBar(
+        SnackBar(
+          content: Text('${jsonValue['error']}'),
+          backgroundColor: Colors.red,
+          padding: const EdgeInsets.all(10),
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(35),
+          ),
+          duration: const Duration(seconds: 10),
+          behavior: SnackBarBehavior.floating,
+          action: SnackBarAction(
+            onPressed: () {},
+            label: "Close",
+            textColor: Colors.white,
+          ),
+          // width: 200,
+        ),
+      );
+    }
+  }
 
   void _initSharedPreferences() async {
     _preferences = await SharedPreferences.getInstance();
@@ -53,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => isLoading = true);
     final GoogleSignInProvider googleSignIn = GoogleSignInProvider();
     try {
-     await googleSignIn.signOut();
+      await googleSignIn.signOut();
     } catch (error) {
       print(error);
     }
@@ -781,6 +872,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           formKey.currentState!.validate();
                       if (isValidateCompleted) {
                         _loginAPI();
+                        // _loginUsingDio();
                       } else {
                         print('Validation failed');
                       }
