@@ -59,8 +59,7 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
      await mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-            target: LatLng(
-                _locationData.latitude ?? 0, _locationData.longitude ?? 0),
+            target: LatLng(_locationData.latitude ?? 0, _locationData.longitude ?? 0),
             zoom: 11,
           ),
         ),
@@ -130,8 +129,7 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
     addMarkerToMap(
       id: "origin",
       position: LatLng(originLatitude, originLongitude),
-      descriptor:
-          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      descriptor: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
     );
 
     /// destination marker
@@ -176,6 +174,7 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
         buildingsEnabled: true,
         trafficEnabled: true,
         markers: Set.of(markers.values),
+        polylines: Set.of(polylines.values),
         onMapCreated: (GoogleMapController controller) {
           mapController = controller;
           setState(() {});
