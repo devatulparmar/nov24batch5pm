@@ -3,13 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nov24batch5pm/gridview_screen.dart';
-import 'package:nov24batch5pm/home_screen.dart';
-import 'package:nov24batch5pm/list_screen.dart';
 import 'package:nov24batch5pm/login_screen.dart';
 import 'package:nov24batch5pm/matches_screen.dart';
 import 'package:nov24batch5pm/nested_nav_screen.dart';
 import 'package:nov24batch5pm/register_screen.dart';
-import 'package:nov24batch5pm/utils/constants.dart';
 
 class BottomNavScreen extends StatefulWidget {
   const BottomNavScreen({super.key});
@@ -66,7 +63,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope<Object?>(
+    return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, Object? result) async {
         if (didPop) {
