@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -42,7 +44,6 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
     addPolyLinesToMap();
   }
 
-
   Location location = Location();
 
   bool isServiceEnabled = false;
@@ -56,10 +57,11 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
     } else {
       var obj = await location.getLocation();
       _locationData = obj;
-     await mapController.animateCamera(
+      await mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
-            target: LatLng(_locationData.latitude ?? 0, _locationData.longitude ?? 0),
+            target: LatLng(
+                _locationData.latitude ?? 0, _locationData.longitude ?? 0),
             zoom: 11,
           ),
         ),
@@ -118,6 +120,18 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
     setState(() {});
   }
 
+  void _zoomIn() {
+    mapController.animateCamera(
+      CameraUpdate.zoomIn(),
+    );
+  }
+
+  void _zoomOut() {
+    mapController.animateCamera(
+      CameraUpdate.zoomOut(),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -129,7 +143,8 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
     addMarkerToMap(
       id: "origin",
       position: LatLng(originLatitude, originLongitude),
-      descriptor: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      descriptor:
+          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
     );
 
     /// destination marker
@@ -170,7 +185,7 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
         rotateGesturesEnabled: true,
         scrollGesturesEnabled: true,
         zoomGesturesEnabled: true,
-        zoomControlsEnabled: true,
+        zoomControlsEnabled: false,
         buildingsEnabled: true,
         trafficEnabled: true,
         markers: Set.of(markers.values),
@@ -181,15 +196,66 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
         },
         // padding: EdgeInsets.all(80),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _getLocation();
-        },
-        child: const Icon(
-          Icons.location_on,
-          color: Colors.white,
-        ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 55,
+            width: 55,
+            child: FloatingActionButton(
+              onPressed: _zoomIn,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(35)
+              ),
+              child: const Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 55,
+            width: 55,
+            child: FloatingActionButton(
+              onPressed: _zoomOut,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(35)
+              ),
+              child: const Icon(
+                Icons.remove,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Visibility(
+            visible: Platform.isAndroid,
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 55,
+                  width: 55,
+                  child: FloatingActionButton(
+                    onPressed: _getLocation,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(35)
+                    ),
+                    child: const Icon(
+                      Icons.location_searching_rounded,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 80),
+        ],
       ),
     );
   }
